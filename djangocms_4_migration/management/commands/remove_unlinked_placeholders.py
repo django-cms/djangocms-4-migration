@@ -2,6 +2,7 @@ import logging
 
 from django.core.management.base import BaseCommand
 from django.db.models import ProtectedError
+from django.db.utils import IntegrityError
 
 from cms.models import (
     Placeholder,
@@ -24,7 +25,7 @@ def _delete_unlinked_placeholders():
         try:
             logger.debug(f"Deleting Placeholder {placeholder.id}")
             placeholder.delete()
-        except ProtectedError as err:
+        except (IntegrityError, ProtectedError) as err:
             logger.error(f"Couldn't Placeholder {placeholder.id} {err}")
 
 
