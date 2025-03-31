@@ -253,8 +253,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         with transaction.atomic():
             # Alias source plugin list
-            cms3_alias_ref_ids = AliasPluginModel.objects.values('plugin_id').order_by('plugin_id').distinct('plugin_id')
-            plugin_id_list = [cms3_plugin['plugin_id'] for cms3_plugin in cms3_alias_ref_ids if cms3_plugin['plugin_id']]
+            cms3_alias_ref_ids = AliasPluginModel.objects.values('plugin_id').order_by('plugin_id')
+                    
+            plugin_id_list = list(set([cms3_plugin['plugin_id'] for cms3_plugin in cms3_alias_ref_ids if cms3_plugin['plugin_id']]))
             alias_source_total = len(plugin_id_list)
             # Alias references list count
             alias_reference_total = AliasPluginModel.objects.count()
