@@ -6,6 +6,7 @@ import re
 from itertools import chain
 
 from django.core.management.base import BaseCommand
+from django.db.utils import IntegrityError
 
 from cms.models import CMSPlugin, Placeholder, StaticPlaceholder
 
@@ -130,13 +131,10 @@ def _create_alias_content(alias, name, language, user, state=PUBLISHED):
         language=language,
     )
 
-    Version.objects.get_or_create(
-        content=alias_content,
-        defaults={
-            "created_by": user,
-            "state": state
-        },
-    )
+    try:
+        Version.objects.create(content=alias_content, created_by=user, state=state)
+    except IntegrityError:
+        pass
 
     logger.info(f'Created AliasContent {alias_content}')
 
