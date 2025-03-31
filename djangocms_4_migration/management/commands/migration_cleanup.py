@@ -4,6 +4,7 @@ from django.core.management.base import BaseCommand
 from django.contrib.contenttypes.models import ContentType
 from django.db import connection
 from django.db.models import ProtectedError
+from django.db.utils import IntegrityError
 
 from cms.models import (
     Placeholder,
@@ -74,9 +75,9 @@ def _delete_page_content(page_content):
     try:
         logger.debug("Deleting PageContent %s" % page_content.id)
         page_content.delete()
-    except ProtectedError as err:
+    except (IntegrityError, ProtectedError) as err:
         logger.error("Couldn't delete PageContent %s %s" % (page_content.id, err))
-
+        
 
 def _get_page_contents(page):
     return PageContent._base_manager.filter(
