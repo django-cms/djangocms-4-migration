@@ -130,7 +130,13 @@ def _create_alias_content(alias, name, language, user, state=PUBLISHED):
         language=language,
     )
 
-    Version.objects.create(content=alias_content, created_by=user, state=state)
+    Version.objects.get_or_create(
+        content=alias_content,
+        defaults={
+            "created_by": user,
+            "state": state
+        },
+    )
 
     logger.info(f'Created AliasContent {alias_content}')
 
