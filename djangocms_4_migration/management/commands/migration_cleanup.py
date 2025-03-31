@@ -54,7 +54,7 @@ def _delete_page(page):
             cursor.execute("DELETE FROM cms_pageurl WHERE page_id = %s", [page.id])
             cursor.execute("DELETE FROM cms_page WHERE id = %s", [page.id])
 
-    except ProtectedError as err:
+    except (IntegrityError, ProtectedError) as err:
         logger.error("Couldn't delete Page %s %s" % (page.id, err))
 
 
@@ -67,7 +67,7 @@ def _delete_page_content_placeholders(page_content_contenttype, page_content):
         try:
             logger.debug("Deleting PageContent Placeholder %s" % placeholder.id)
             placeholder.delete()
-        except ProtectedError as err:
+        except (IntegrityError, ProtectedError) as err:
             logger.error("Couldn't delete PageContent Placeholder %s %s" % (placeholder.id, err))
 
 
