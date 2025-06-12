@@ -5,7 +5,9 @@ import re
 
 from itertools import chain
 
+from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import BaseCommand
+from django.db.utils import IntegrityError
 
 from cms.models import CMSPlugin, Placeholder, StaticPlaceholder
 
@@ -130,9 +132,18 @@ def _create_alias_content(alias, name, language, user, state=PUBLISHED):
         language=language,
     )
 
-    Version.objects.create(content=alias_content, created_by=user, state=state)
-
-    logger.info(f'Created AliasContent {alias_content}')
+    try:
+        Version.objects.create(content=alias_content, created_by=user, state=state)
+    except IntegrityError:
+        if state == PUBLISHED:
+            ctype = ContentType.objects.get_for_model(AliasContent)
+            cid = alias_content.pk
+            version = Version.objects.get(content_type=ctype, object_id=cid)
+            if version.state == DRAFT:
+                version.publish(user)
+                logger.info(f'Published AliasContent {alias_content}')
+    else:
+        logger.info(f'Created AliasContent {alias_content}')
 
     return alias_content
 
