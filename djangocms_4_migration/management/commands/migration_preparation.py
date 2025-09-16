@@ -9,10 +9,9 @@ logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    help = 'Run before migrations are applied'
+    help = "Run before migrations are applied"
 
     def handle(self, *args, **options):
-
         logger.info("Attempting to remove djangocms_history")
         # Code is too different for: call_command('migrate', 'djangocms_history', 'zero')
         try:
