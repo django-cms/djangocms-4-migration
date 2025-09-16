@@ -78,6 +78,15 @@ If you have a custom user model, you should designate a "migration user" by spec
 CMS_MIGRATION_USER_ID = <user id>
 ```
 
+If you want to adjust data to get the migration running in your project, there are 2 function-points available:
+
+```
+CMS_MIGRATION_PROCESS_MIGRATION_PREPARATION = "mymodule.myfunction2"
+CMS_MIGRATION_PROCESS_PAGE_REFERENCES = "mymodule.myfunction"
+```
+
+The latter function is supplied with parameters `page` and `replacement_page`.
+
 ## Running
 Simply run the following command to run the data migration.
 **Note:** This command calls the django migrate command, this is because it has to run commands that save information that would have been lost by running the cms migrations directly.

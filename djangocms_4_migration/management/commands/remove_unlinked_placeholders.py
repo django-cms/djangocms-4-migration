@@ -14,9 +14,7 @@ logger = logging.getLogger(__name__)
 def _delete_unlinked_placeholders():
     # Get any orphaned clipboards that have been incorrectly
     # linked to a user in the migration from 3 to 4.
-    placeholders = Placeholder.objects.filter(
-        slot="clipboard"
-    )
+    placeholders = Placeholder.objects.filter(slot="clipboard")
 
     logger.info(f"Orphaned placeholders found: {placeholders.count()}")
 
@@ -29,10 +27,9 @@ def _delete_unlinked_placeholders():
 
 
 class Command(BaseCommand):
-    help = 'Delete all orphaned placeholders that are not linked to anything'
+    help = "Delete all orphaned placeholders that are not linked to anything"
 
     def handle(self, *args, **options):
-
         logger.info("Running placeholder cleanup")
 
         _delete_unlinked_placeholders()
