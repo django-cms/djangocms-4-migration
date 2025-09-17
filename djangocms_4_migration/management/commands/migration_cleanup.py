@@ -170,6 +170,16 @@ def _get_page_contents(page):
     return PageContent._base_manager.filter(page=page)
 
 
+def _post_cleanup():
+    custom_function = getattr(settings, "CMS_MIGRATION_PROCESS_POST_CLEANUP", None)
+    if custom_function:
+        module, function = custom_function.rsplit(".", 1)
+        getattr(
+            __import__(module, fromlist=[""]),
+            function,
+        )()
+
+
 class Command(BaseCommand):
     help = "Run after migrations are applied"
 
@@ -223,5 +233,7 @@ class Command(BaseCommand):
                 # Delete redundant page urls (the first is the published one - keep it)
                 for url in page.urls.filter(language=language).order_by("pk")[1:]:
                     url.delete()
+
+        _post_cleanup()
 
         logger.info("Stats: %s", str(stats))
