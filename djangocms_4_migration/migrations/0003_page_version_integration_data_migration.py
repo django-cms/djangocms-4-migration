@@ -23,7 +23,7 @@ def forwards(apps, schema_editor):
     PageContent = apps.get_model("cms", "PageContent")
     Version = apps.get_model("djangocms_versioning", "Version")
     PageData = apps.get_model("djangocms_4_migration", "PageData")
-    User = apps.get_model(*settings.AUTH_USER_MODEL.split('.'))
+    User = get_user_model()
     ContentType = apps.get_model('contenttypes', 'ContentType')
 
     page_content_contenttype = ContentType.objects.get(app_label='cms', model='pagecontent')
@@ -117,3 +117,4 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunPython(forwards),
     ]
+
