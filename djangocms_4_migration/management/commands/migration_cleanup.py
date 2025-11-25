@@ -135,10 +135,7 @@ def _fix_page_references(page):
 def _delete_page(page):
     try:
         logger.info("Deleting Page %s" % page.id)
-        with connection.cursor() as cursor:
-            cursor.execute("DELETE FROM cms_pageurl WHERE page_id = %s", [page.id])
-            cursor.execute("DELETE FROM cms_page WHERE id = %s", [page.id])
-
+        Page.objects.filter(id=page.id).delete()
     except ProtectedError as err:
         logger.error("Couldn't delete Page %s %s" % (page.id, err))
 
