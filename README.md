@@ -3,7 +3,9 @@
 **Warning:** If the migration process fails to complete you will not be able to undo the changes without reloading a database backup. We cannot be held accountable for any data loss sustained when running the commands provided in this project. Please keep a database backup before running any commands provided by this package.
 
 ## When do I need this package?
-This package is designed to migrate a django CMS 3.5+ project to django CMS 4.0.
+This package is designed to migrate a django CMS 3.5+ project to django CMS 4.0, 4.1. 
+
+For any later django CMS versions, **first go to django CMS 4.1**, then continue to upgrade.
 
 ## What does this package do?
 - Keeps any draft and published content, ensuring that any new draft changes are kept as a new draft version in djangocms_versioning.
@@ -12,7 +14,7 @@ This package is designed to migrate a django CMS 3.5+ project to django CMS 4.0.
 - Runs django CMS' migrations
 
 ## Limitations
-Due to the nature of the changes between django CMS 3.5+ and 4.0 the package will fail to function if an incompatible package is installed.
+Due to the nature of the changes between django CMS 3.5+ and 4 the package will fail to function if an incompatible package is installed.
 
 This may require you to:
  - Fork or copy and modify this package to work with any bespoke requirements your project has (we may accept these changes back for popular packages as a configurable option)
@@ -20,20 +22,20 @@ This may require you to:
  - `PageFields` in custom models need to have a `related_name` (since page pk change and references need to be updated). If you have page filds with a `related_name="+"`, temporarily give them a related name for the migration.
 
 ## Prerequisites
-Require knowledge of the changes and new features in 4.0:
+Require knowledge of the changes and new features in 4:
 - New cms app configuration
-- Revised Page, Title (Now named PageContent) and Placeholder relationships
+- Revised `Page`, `Title` (Now named `PageContent`) and `Placeholder` relationships
 
-Requires knowledge of django CMS Versioning
+Requires knowledge of [django CMS Versioning](https://djangocms-versioning.readthedocs.io/)
 - Grouper and content model terms
 - Understanding how versioning selects published content
 
 ### Install the following packages
 The following packages are not yet officially released, they need to be installed directly from the repository. We need your help to make packages v4.0 compatible and to provide documentation for the wider community!
 
-django CMS 4.0+
+django CMS 4.1+
 ```
-pip install django-cms
+pip install django-cms\>=4.1,\<5
 ```
 
 djangocms-text-ckeditor
