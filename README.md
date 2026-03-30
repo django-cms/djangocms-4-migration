@@ -31,16 +31,16 @@ Requires knowledge of [django CMS Versioning](https://djangocms-versioning.readt
 - Understanding how versioning selects published content
 
 ### Install the following packages
-The following packages are not yet officially released, they need to be installed directly from the repository. We need your help to make packages v4.0 compatible and to provide documentation for the wider community!
+The following packages are not yet officially released, they need to be installed directly from the repository. 
 
 django CMS 4.1+
 ```
 pip install django-cms\>=4.1,\<5
 ```
 
-djangocms-text-ckeditor
+djangocms-text (technically also works with djangocms-text-ckeditor, but it is deprecated)
 ```
-pip install djangocms-text-ckeditor
+pip install djangocms-text
 ```
 
 djangocms-versioning
