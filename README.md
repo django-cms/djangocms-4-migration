@@ -50,7 +50,7 @@ pip install djangocms-versioning
 
 djangocms-alias
 ```
-pip install djangocms-alias
+pip install djangocms-alias\<3
 ```
 
 ## Installation
