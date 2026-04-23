@@ -228,9 +228,15 @@ def process_old_alias_sources(site, language, site_plugin_queryset):
             from djangocms_versioning.models import Version
 
             # Create version
-            changed_by = User.objects.get(
+            changed_by = User.objects.filter(
                 **{User.USERNAME_FIELD: old_plugin.placeholder.source.changed_by}
-            )
+            ).first()
+            if changed_by is None:
+                # Fallback when the historical username no longer exists in the
+                # target DB. Uses the same CMS_MIGRATION_USER_ID setting that
+                # page_version_integration_data_migration already relies on.
+                from django.conf import settings
+                changed_by = User.objects.get(pk=settings.CMS_MIGRATION_USER_ID)
             version = Version.objects.create(
                 content=alias_content, created_by=changed_by
             )
