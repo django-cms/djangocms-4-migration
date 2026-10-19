@@ -31,8 +31,6 @@ Requires knowledge of [django CMS Versioning](https://djangocms-versioning.readt
 - Understanding how versioning selects published content
 
 ### Install the following packages
-The following packages are not yet officially released, they need to be installed directly from the repository. 
-
 django CMS 4.1+
 ```
 pip install django-cms\>=4.1,\<5
